@@ -11,6 +11,7 @@ type SectionProps = PropsWithChildren<{
 const App = (): React.JSX.Element => {
   // Hooks must go on top, before components.
   const [modalVisibility, setModalVisibility] = useState(false);
+  const [patients, setPatients] = useState([]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -20,12 +21,17 @@ const App = (): React.JSX.Element => {
       </Text>
       <Pressable
         onPress={() => {
-          setModalVisibility(!modalVisibility);
+          setModalVisibility(true);
         }}
         style={styles.button}>
         <Text style={styles.buttonText}>New Appointment</Text>
       </Pressable>
-      <Form modalVisibility={modalVisibility} setModalVisibility={setModalVisibility} />
+      <Form
+        modalVisibility={modalVisibility}
+        setModalVisibility={setModalVisibility}
+        patients={patients}
+        setPatients={setPatients}
+      />
     </SafeAreaView>
   );
 };

@@ -8,10 +8,11 @@ import {
   TextInput,
   ScrollView,
   Pressable,
+  Alert,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
-const Form = ({modalVisibility, setModalVisibility}) => {
+const Form = ({modalVisibility, setModalVisibility, patients, setPatients}) => {
   const [patient, setPatient] = useState('')
   const [owner, setOwner] = useState('')
   const [email, setEmail] = useState('')
@@ -19,8 +20,37 @@ const Form = ({modalVisibility, setModalVisibility}) => {
   const [dateApp, setDateApp] = useState(new Date())
   const [symptoms, setSymtoms] = useState('')
 
+  const clearAllFields = () => {
+    setPatient('')
+    setOwner('')
+    setEmail('')
+    setPhone('')
+    setDateApp(new Date())
+    setSymtoms('')
+  }
+
+  const handleAppointment = () => {
+    if ([patient, owner, email, dateApp, symptoms].includes('')) {
+      Alert.alert("Error", "Please, comple the form")
+      return
+    }
+
+    const newPatient = {
+      patient,
+      owner,
+      email,
+      phone,
+      dateApp,
+      symptoms,
+    }
+
+    setPatients([...patients, newPatient])
+    clearAllFields()
+    setModalVisibility(false)
+  }
+
   return (
-    <Modal animationType="slide" visible={modalVisibility}>
+    <Modal animationType='slide' visible={modalVisibility}>
       <SafeAreaView style={styles.content}>
         <ScrollView>
 
@@ -100,6 +130,10 @@ const Form = ({modalVisibility, setModalVisibility}) => {
             />
           </View>
 
+          <Pressable style={styles.btnCreateApp} onPress={handleAppointment}>
+            <Text style={styles.btnCreateAppText}>Add Patient</Text>
+          </Pressable>
+
         </ScrollView>
       </SafeAreaView>
     </Modal>
@@ -159,6 +193,21 @@ const styles = StyleSheet.create({
   containerDate: {
     backgroundColor: '#FFFFFF',
     borderRadius: 8,
+  },
+  btnCreateApp: {
+    justifyContent: 'center',
+    height: 48,
+    marginTop: 24,
+    backgroundColor: '#F59E0B',
+    marginHorizontal: 24,
+    borderRadius: 8,
+  },
+  btnCreateAppText: {
+    color: '#6D28D9',
+    textAlign: 'center',
+    fontWeight: '900',
+    fontSize: 20,
+    textTransform: 'uppercase',
   },
 });
 
