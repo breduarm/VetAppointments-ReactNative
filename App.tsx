@@ -1,11 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import {
   SafeAreaView,
   Text,
   StyleSheet,
   Pressable,
+  Modal,
 } from 'react-native';
 
 type SectionProps = PropsWithChildren<{
@@ -14,18 +15,24 @@ type SectionProps = PropsWithChildren<{
 
 const App = (): React.JSX.Element => {
 
-  const createAppHandler = () => {
-    console.log("Pressable onPress")
-  }
+  // Hooks must go on top, before components.
+  const [modalVisibility, setModalVisibility] = useState(false)
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.h1}>Medical Appointment Manager {''}
         <Text style={styles.h1Bold}>Veterinary</Text>
       </Text>
-      <Pressable onPress={createAppHandler} style={styles.button}>
+      <Pressable
+        onPress={() => { setModalVisibility(!modalVisibility) }}
+        style={styles.button}>
         <Text style={styles.buttonText}>New Appointment</Text>
       </Pressable>
+      <Modal
+        animationType='slide'
+        visible={modalVisibility}>
+        <Text>From Modal</Text>
+      </Modal>
     </SafeAreaView>
   );
 }
