@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Modal,
   SafeAreaView,
@@ -10,6 +10,12 @@ import {
 } from 'react-native';
 
 const Form = ({modalVisibility}) => {
+  const [patient, setPatient] = useState('')
+  const [owner, setOwner] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [symptoms, setSymtoms] = useState('')
+
   return (
     <Modal animationType="slide" visible={modalVisibility}>
       <SafeAreaView style={styles.content}>
@@ -24,6 +30,8 @@ const Form = ({modalVisibility}) => {
               style={styles.input}
               placeholder="Patient Name"
               placeholderTextColor={'#666'}
+              value={patient}
+              onChangeText={setPatient}
             />
           </View>
           <View style={styles.field}>
@@ -32,6 +40,8 @@ const Form = ({modalVisibility}) => {
               style={styles.input}
               placeholder="Owner's Name"
               placeholderTextColor={'#666'}
+              value={owner}
+              onChangeText={setOwner}
             />
           </View>
           <View style={styles.field}>
@@ -41,6 +51,8 @@ const Form = ({modalVisibility}) => {
               placeholder="Owner's Email"
               placeholderTextColor={'#666'}
               keyboardType="email-address"
+              value={email}
+              onChangeText={setEmail}
             />
           </View>
           <View style={styles.field}>
@@ -50,14 +62,21 @@ const Form = ({modalVisibility}) => {
               placeholder="Owner's Phone"
               placeholderTextColor={'#666'}
               keyboardType="phone-pad"
+              maxLength={10}
+              value={phone}
+              onChangeText={setPhone}
             />
           </View>
           <View style={styles.field}>
             <Text style={styles.label}>Symptoms</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, styles.symptomsInput]}
               placeholder="Patient Symptoms"
               placeholderTextColor={'#666'}
+              multiline={true}
+              numberOfLines={4}
+              value={symptoms}
+              onChangeText={setSymtoms}
             />
           </View>
         </ScrollView>
@@ -97,6 +116,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 15,
   },
+  symptomsInput: {
+    textAlignVertical: 'top',
+    height: 100
+  }
 });
 
 export default Form;
