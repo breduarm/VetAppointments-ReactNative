@@ -7,10 +7,11 @@ import {
   View,
   TextInput,
   ScrollView,
+  Pressable,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
-const Form = ({modalVisibility}) => {
+const Form = ({modalVisibility, setModalVisibility}) => {
   const [patient, setPatient] = useState('')
   const [owner, setOwner] = useState('')
   const [email, setEmail] = useState('')
@@ -22,10 +23,16 @@ const Form = ({modalVisibility}) => {
     <Modal animationType="slide" visible={modalVisibility}>
       <SafeAreaView style={styles.content}>
         <ScrollView>
+
           <Text style={styles.h1}>
             New {''}
             <Text style={styles.h1Bold}>Appointment</Text>
           </Text>
+
+          <Pressable style={styles.btnCancel} onPress={() => setModalVisibility(false)}>
+            <Text style={styles.btnCancelText}>Cancel</Text>
+          </Pressable>
+
           <View style={styles.field}>
             <Text style={styles.label}>Patient name</Text>
             <TextInput
@@ -36,6 +43,7 @@ const Form = ({modalVisibility}) => {
               onChangeText={setPatient}
             />
           </View>
+
           <View style={styles.field}>
             <Text style={styles.label}>Owner's Name</Text>
             <TextInput
@@ -46,6 +54,7 @@ const Form = ({modalVisibility}) => {
               onChangeText={setOwner}
             />
           </View>
+
           <View style={styles.field}>
             <Text style={styles.label}>Owner's Email</Text>
             <TextInput
@@ -57,6 +66,7 @@ const Form = ({modalVisibility}) => {
               onChangeText={setEmail}
             />
           </View>
+
           <View style={styles.field}>
             <Text style={styles.label}>Owner's Phone</Text>
             <TextInput
@@ -69,12 +79,14 @@ const Form = ({modalVisibility}) => {
               onChangeText={setPhone}
             />
           </View>
+
           <View style={styles.field}>
             <Text style={styles.label}>Discharge Date</Text>
             <View style={styles.containerDate}>
             <DatePicker date={dateApp} onDateChange={date => {setDateApp(date)}} mode='date'/>
             </View>
           </View>
+
           <View style={styles.field}>
             <Text style={styles.label}>Symptoms</Text>
             <TextInput
@@ -87,6 +99,7 @@ const Form = ({modalVisibility}) => {
               onChangeText={setSymtoms}
             />
           </View>
+
         </ScrollView>
       </SafeAreaView>
     </Modal>
@@ -103,6 +116,21 @@ const styles = StyleSheet.create({
   },
   h1Bold: {
     fontWeight: '900',
+  },
+  btnCancel: {
+    justifyContent: 'center',
+    height: 48,
+    marginTop: 24,
+    backgroundColor: '#5827A4',
+    marginHorizontal: 24,
+    borderRadius: 8,
+  },
+  btnCancelText: {
+    color: '#FFFFFF',
+    textAlign: 'center',
+    fontWeight: '900',
+    fontSize: 20,
+    textTransform: 'uppercase',
   },
   content: {
     backgroundColor: '#6D28D9',

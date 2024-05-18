@@ -25,7 +25,7 @@ const App = (): React.JSX.Element => {
         style={styles.button}>
         <Text style={styles.buttonText}>New Appointment</Text>
       </Pressable>
-      <Form modalVisibility={modalVisibility} />
+      <Form modalVisibility={modalVisibility} setModalVisibility={setModalVisibility} />
     </SafeAreaView>
   );
 };
