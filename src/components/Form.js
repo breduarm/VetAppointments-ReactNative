@@ -8,12 +8,14 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
+import DatePicker from 'react-native-date-picker';
 
 const Form = ({modalVisibility}) => {
   const [patient, setPatient] = useState('')
   const [owner, setOwner] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [dateApp, setDateApp] = useState(new Date())
   const [symptoms, setSymtoms] = useState('')
 
   return (
@@ -61,11 +63,17 @@ const Form = ({modalVisibility}) => {
               style={styles.input}
               placeholder="Owner's Phone"
               placeholderTextColor={'#666'}
-              keyboardType="phone-pad"
+              keyboardType="number-pad"
               maxLength={10}
               value={phone}
               onChangeText={setPhone}
             />
+          </View>
+          <View style={styles.field}>
+            <Text style={styles.label}>Discharge Date</Text>
+            <View style={styles.containerDate}>
+            <DatePicker date={dateApp} onDateChange={date => {setDateApp(date)}} mode='date'/>
+            </View>
           </View>
           <View style={styles.field}>
             <Text style={styles.label}>Symptoms</Text>
@@ -119,7 +127,11 @@ const styles = StyleSheet.create({
   symptomsInput: {
     textAlignVertical: 'top',
     height: 100
-  }
+  },
+  containerDate: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+  },
 });
 
 export default Form;
