@@ -1,11 +1,8 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 
 const Patient = ({item}) => {
   const {patient, dateApp} = item;
-
-  console.log('==== date prop: ')
-  console.log(dateApp);
 
   const formatDate = (date: Date) => {
     const dateAppointment = new Date(date);
@@ -25,6 +22,16 @@ const Patient = ({item}) => {
       <Text style={styles.label}>Patient:</Text>
       <Text style={styles.text}>{patient}</Text>
       <Text style={styles.date}>{formatDate(dateApp)}</Text>
+
+      <View style={styles.btnsContainer}>
+        <Pressable style={[styles.btnAction, styles.btnEdit]}>
+          <Text style={styles.btnText}>Edit</Text>
+        </Pressable>
+
+        <Pressable style={[styles.btnAction, styles.btnDelet]}>
+          <Text style={styles.btnText}>Delet</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -50,7 +57,28 @@ const styles = StyleSheet.create({
   },
   date: {
     color: '#374151',
-
+  },
+  btnsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  btnAction: {
+    paddingVertical: 4,
+    paddingHorizontal: 16,
+    borderRadius: 4,
+  },
+  btnEdit: {
+    backgroundColor: '#F59E0B',
+  },
+  btnDelet: {
+    backgroundColor: '#EF4444',
+  },
+  btnText: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: '700',
+    textTransform: 'uppercase',
   },
 })
 
