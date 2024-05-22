@@ -1,6 +1,13 @@
 import React, {useState} from 'react';
 import type {PropsWithChildren} from 'react';
-import {SafeAreaView, Text, StyleSheet, Pressable} from 'react-native';
+import {
+  SafeAreaView,
+  Text,
+  StyleSheet,
+  Pressable,
+  FlatList,
+} from 'react-native';
+import Patient from './src/components/Patient';
 
 import Form from './src/components/Form';
 
@@ -16,9 +23,10 @@ const App = (): React.JSX.Element => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.h1}>
-        Medical Appointment Manager {''}
+        Appointment Manager {'\n'}
         <Text style={styles.h1Bold}>Veterinary</Text>
       </Text>
+
       <Pressable
         onPress={() => {
           setModalVisibility(true);
@@ -26,6 +34,20 @@ const App = (): React.JSX.Element => {
         style={styles.button}>
         <Text style={styles.buttonText}>New Appointment</Text>
       </Pressable>
+
+      {patients.length === 0 ? (
+        <Text style={styles.noPatients}>There are no patients</Text>
+      ) : (
+        <FlatList
+        style={styles.patientList}
+          data={patients}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => {
+            return <Patient item={item} />;
+          }}
+        />
+      )}
+
       <Form
         modalVisibility={modalVisibility}
         setModalVisibility={setModalVisibility}
@@ -67,6 +89,16 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     textTransform: 'uppercase',
   },
+  noPatients: {
+    marginTop: 40,
+    textAlign: 'center',
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  patientList: {
+    marginTop: 24,
+    marginHorizontal: 24,
+  }
 });
 
 export default App;

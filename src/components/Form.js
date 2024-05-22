@@ -36,6 +36,7 @@ const Form = ({modalVisibility, setModalVisibility, patients, setPatients}) => {
     }
 
     const newPatient = {
+      id: Date.now(),
       patient,
       owner,
       email,
@@ -201,6 +202,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F59E0B',
     marginHorizontal: 24,
     borderRadius: 8,
+    marginBottom: 100,
   },
   btnCreateAppText: {
     color: '#6D28D9',
