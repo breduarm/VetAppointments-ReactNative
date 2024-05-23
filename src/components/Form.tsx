@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Modal,
   SafeAreaView,
@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
-const Form = ({modalVisibility, setModalVisibility, patients, setPatients}) => {
+const Form = ({modalVisibility, setModalVisibility, patients, setPatients, patient: prevPatient, setPatient: setPrevPatient}) => {
+  const [id, setId] = useState('')
   const [patient, setPatient] = useState('')
   const [owner, setOwner] = useState('')
   const [email, setEmail] = useState('')
@@ -20,13 +21,32 @@ const Form = ({modalVisibility, setModalVisibility, patients, setPatients}) => {
   const [dateApp, setDateApp] = useState(new Date())
   const [symptoms, setSymtoms] = useState('')
 
+  useEffect(() => {
+    if (Object.keys(prevPatient).length > 0) {
+      setId(prevPatient.id)
+      setPatient(prevPatient.patient)
+      setOwner(prevPatient.owner)
+      setEmail(prevPatient.email)
+      setPhone(prevPatient.phone)
+      setDateApp(prevPatient.dateApp)
+      setSymtoms(prevPatient.symptoms)
+    }
+  }, [prevPatient])
+
   const clearAllFields = () => {
+    setId('')
     setPatient('')
     setOwner('')
     setEmail('')
     setPhone('')
     setDateApp(new Date())
     setSymtoms('')
+  }
+
+  const onCancel = () => {
+    setModalVisibility(false)
+    clearAllFields()
+    setPrevPatient({})
   }
 
   const handleAppointment = () => {
@@ -36,7 +56,6 @@ const Form = ({modalVisibility, setModalVisibility, patients, setPatients}) => {
     }
 
     const newPatient = {
-      id: Date.now(),
       patient,
       owner,
       email,
@@ -45,7 +64,18 @@ const Form = ({modalVisibility, setModalVisibility, patients, setPatients}) => {
       symptoms,
     }
 
-    setPatients([...patients, newPatient])
+    if (id) {
+      // Edit patient
+      newPatient.id = id
+      const patientsUpdated = patients.map(patient => patient.id === newPatient.id ? newPatient : patient)
+      setPatients(patientsUpdated)
+      setPrevPatient({})
+    } else {
+      // New Patient
+      newPatient.id = Date.now()
+      setPatients([...patients, newPatient])
+    }
+
     clearAllFields()
     setModalVisibility(false)
   }
@@ -60,7 +90,7 @@ const Form = ({modalVisibility, setModalVisibility, patients, setPatients}) => {
             <Text style={styles.h1Bold}>Appointment</Text>
           </Text>
 
-          <Pressable style={styles.btnCancel} onPress={() => setModalVisibility(false)}>
+          <Pressable style={styles.btnCancel} onPress={onCancel}>
             <Text style={styles.btnCancelText}>Cancel</Text>
           </Pressable>
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 
-const Patient = ({item}) => {
-  const {patient, dateApp} = item;
+const Patient = ({item, onEditPatient}) => {
+  const {id, patient, dateApp} = item;
 
   const formatDate = (date: Date) => {
     const dateAppointment = new Date(date);
@@ -24,7 +24,7 @@ const Patient = ({item}) => {
       <Text style={styles.date}>{formatDate(dateApp)}</Text>
 
       <View style={styles.btnsContainer}>
-        <Pressable style={[styles.btnAction, styles.btnEdit]}>
+        <Pressable style={[styles.btnAction, styles.btnEdit]} onPress={() => onEditPatient(id)}>
           <Text style={styles.btnText}>Edit</Text>
         </Pressable>
 

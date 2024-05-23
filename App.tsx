@@ -19,6 +19,13 @@ const App = (): React.JSX.Element => {
   // Hooks must go on top, before components.
   const [modalVisibility, setModalVisibility] = useState(false);
   const [patients, setPatients] = useState([]);
+  const [patient, setPatient] = useState({});
+
+  const onEditPatient = id => {
+    const patientToEdit = patients.filter(patient => patient.id === id)[0]
+    setPatient(patientToEdit)
+    setModalVisibility(true)
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -43,7 +50,7 @@ const App = (): React.JSX.Element => {
           data={patients}
           keyExtractor={item => item.id}
           renderItem={({ item }) => {
-            return <Patient item={item} />;
+            return <Patient item={item} onEditPatient={onEditPatient} />;
           }}
         />
       )}
@@ -53,6 +60,8 @@ const App = (): React.JSX.Element => {
         setModalVisibility={setModalVisibility}
         patients={patients}
         setPatients={setPatients}
+        patient={patient}
+        setPatient={setPatient}
       />
     </SafeAreaView>
   );
