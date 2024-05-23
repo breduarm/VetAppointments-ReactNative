@@ -12,47 +12,54 @@ import {
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
-const Form = ({modalVisibility, setModalVisibility, patients, setPatients, patient: prevPatient, setPatient: setPrevPatient}) => {
-  const [id, setId] = useState('')
-  const [patient, setPatient] = useState('')
-  const [owner, setOwner] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [dateApp, setDateApp] = useState(new Date())
-  const [symptoms, setSymtoms] = useState('')
+const Form = ({
+  modalVisibility,
+  setModalVisibility,
+  patients,
+  setPatients,
+  patient: prevPatient,
+  setPatient: setPrevPatient,
+}) => {
+  const [id, setId] = useState('');
+  const [patient, setPatient] = useState('');
+  const [owner, setOwner] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [dateApp, setDateApp] = useState(new Date());
+  const [symptoms, setSymtoms] = useState('');
 
   useEffect(() => {
     if (Object.keys(prevPatient).length > 0) {
-      setId(prevPatient.id)
-      setPatient(prevPatient.patient)
-      setOwner(prevPatient.owner)
-      setEmail(prevPatient.email)
-      setPhone(prevPatient.phone)
-      setDateApp(prevPatient.dateApp)
-      setSymtoms(prevPatient.symptoms)
+      setId(prevPatient.id);
+      setPatient(prevPatient.patient);
+      setOwner(prevPatient.owner);
+      setEmail(prevPatient.email);
+      setPhone(prevPatient.phone);
+      setDateApp(prevPatient.dateApp);
+      setSymtoms(prevPatient.symptoms);
     }
-  }, [prevPatient])
+  }, [prevPatient]);
 
   const clearAllFields = () => {
-    setId('')
-    setPatient('')
-    setOwner('')
-    setEmail('')
-    setPhone('')
-    setDateApp(new Date())
-    setSymtoms('')
-  }
+    setId('');
+    setPatient('');
+    setOwner('');
+    setEmail('');
+    setPhone('');
+    setDateApp(new Date());
+    setSymtoms('');
+  };
 
   const onCancel = () => {
-    setModalVisibility(false)
-    clearAllFields()
-    setPrevPatient({})
-  }
+    setModalVisibility(false);
+    clearAllFields();
+    setPrevPatient({});
+  };
 
   const handleAppointment = () => {
     if ([patient, owner, email, dateApp, symptoms].includes('')) {
-      Alert.alert("Error", "Please, comple the form")
-      return
+      Alert.alert('Error', 'Please, comple the form');
+      return;
     }
 
     const newPatient = {
@@ -62,31 +69,32 @@ const Form = ({modalVisibility, setModalVisibility, patients, setPatients, patie
       phone,
       dateApp,
       symptoms,
-    }
+    };
 
     if (id) {
       // Edit patient
-      newPatient.id = id
-      const patientsUpdated = patients.map(patient => patient.id === newPatient.id ? newPatient : patient)
-      setPatients(patientsUpdated)
-      setPrevPatient({})
+      newPatient.id = id;
+      const patientsUpdated = patients.map(patient =>
+        patient.id === newPatient.id ? newPatient : patient,
+      );
+      setPatients(patientsUpdated);
+      setPrevPatient({});
     } else {
       // New Patient
-      newPatient.id = Date.now()
-      setPatients([...patients, newPatient])
+      newPatient.id = Date.now();
+      setPatients([...patients, newPatient]);
     }
 
-    clearAllFields()
-    setModalVisibility(false)
-  }
+    clearAllFields();
+    setModalVisibility(false);
+  };
 
   return (
-    <Modal animationType='slide' visible={modalVisibility}>
+    <Modal animationType="slide" visible={modalVisibility}>
       <SafeAreaView style={styles.content}>
         <ScrollView>
-
           <Text style={styles.h1}>
-            New {''}
+            {id ? 'Edit' : 'New'} {''}
             <Text style={styles.h1Bold}>Appointment</Text>
           </Text>
 
@@ -144,7 +152,13 @@ const Form = ({modalVisibility, setModalVisibility, patients, setPatients, patie
           <View style={styles.field}>
             <Text style={styles.label}>Discharge Date</Text>
             <View style={styles.containerDate}>
-            <DatePicker date={dateApp} onDateChange={date => {setDateApp(date)}} mode='date'/>
+              <DatePicker
+                date={dateApp}
+                onDateChange={date => {
+                  setDateApp(date);
+                }}
+                mode="date"
+              />
             </View>
           </View>
 
@@ -162,9 +176,10 @@ const Form = ({modalVisibility, setModalVisibility, patients, setPatients, patie
           </View>
 
           <Pressable style={styles.btnCreateApp} onPress={handleAppointment}>
-            <Text style={styles.btnCreateAppText}>Add Patient</Text>
+            <Text style={styles.btnCreateAppText}>
+              {id ? 'Edit patient' : 'Add patient'}
+            </Text>
           </Pressable>
-
         </ScrollView>
       </SafeAreaView>
     </Modal>
@@ -219,7 +234,7 @@ const styles = StyleSheet.create({
   },
   symptomsInput: {
     textAlignVertical: 'top',
-    height: 100
+    height: 100,
   },
   containerDate: {
     backgroundColor: '#FFFFFF',
