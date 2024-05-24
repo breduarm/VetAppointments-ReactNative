@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Pressable,
   FlatList,
+  Alert,
 } from 'react-native';
 import Patient from './src/components/Patient';
 
@@ -22,10 +23,31 @@ const App = (): React.JSX.Element => {
   const [patient, setPatient] = useState({});
 
   const onEditPatient = id => {
-    const patientToEdit = patients.filter(patient => patient.id === id)[0]
-    setPatient(patientToEdit)
-    setModalVisibility(true)
-  }
+    const patientToEdit = patients.filter(patient => patient.id === id)[0];
+    setPatient(patientToEdit);
+    setModalVisibility(true);
+  };
+
+  const confirmDeletePatient = id => {
+    Alert.alert(
+      'Do you want to delete this patient?',
+      'This action can not be undone',
+      [
+        {text: 'Cancel'},
+        {
+          text: 'Delete',
+          onPress: () => {
+            onDeletePatient(id);
+          },
+        },
+      ],
+    );
+  };
+
+  const onDeletePatient = id => {
+    const updatedPatients = patients.filter(patient => patient.id !== id);
+    setPatients(updatedPatients);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -46,11 +68,17 @@ const App = (): React.JSX.Element => {
         <Text style={styles.noPatients}>There are no patients</Text>
       ) : (
         <FlatList
-        style={styles.patientList}
+          style={styles.patientList}
           data={patients}
           keyExtractor={item => item.id}
-          renderItem={({ item }) => {
-            return <Patient item={item} onEditPatient={onEditPatient} />;
+          renderItem={({item}) => {
+            return (
+              <Patient
+                item={item}
+                onEditPatient={onEditPatient}
+                onDeletePatient={confirmDeletePatient}
+              />
+            );
           }}
         />
       )}
@@ -107,7 +135,7 @@ const styles = StyleSheet.create({
   patientList: {
     marginTop: 24,
     marginHorizontal: 24,
-  }
+  },
 });
 
 export default App;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 
-const Patient = ({item, onEditPatient}) => {
+const Patient = ({item, onEditPatient, onDeletePatient}) => {
   const {id, patient, dateApp} = item;
 
   const formatDate = (date: Date) => {
@@ -14,7 +14,6 @@ const Patient = ({item, onEditPatient}) => {
     };
 
     return dateAppointment.toLocaleDateString('en-US', options);
-
   };
 
   return (
@@ -24,11 +23,15 @@ const Patient = ({item, onEditPatient}) => {
       <Text style={styles.date}>{formatDate(dateApp)}</Text>
 
       <View style={styles.btnsContainer}>
-        <Pressable style={[styles.btnAction, styles.btnEdit]} onPress={() => onEditPatient(id)}>
+        <Pressable
+          style={[styles.btnAction, styles.btnEdit]}
+          onPress={() => onEditPatient(id)}>
           <Text style={styles.btnText}>Edit</Text>
         </Pressable>
 
-        <Pressable style={[styles.btnAction, styles.btnDelet]}>
+        <Pressable
+          style={[styles.btnAction, styles.btnDelet]}
+          onPress={() => onDeletePatient(id)}>
           <Text style={styles.btnText}>Delet</Text>
         </Pressable>
       </View>
@@ -80,6 +83,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textTransform: 'uppercase',
   },
-})
+});
 
 export default Patient;
