@@ -7,10 +7,11 @@ import {
   Pressable,
   FlatList,
   Alert,
+  Modal,
 } from 'react-native';
 import Patient from './src/components/Patient';
-
-import Form from './src/components/Form';
+import Form from './src/components/ModalForm';
+import ModalPatient from './src/components/ModalPatient';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -18,14 +19,15 @@ type SectionProps = PropsWithChildren<{
 
 const App = (): React.JSX.Element => {
   // Hooks must go on top, before components.
-  const [modalVisibility, setModalVisibility] = useState(false);
+  const [modalFormVisibility, setModalFormVisibility] = useState(false);
+  const [modalPatientVisibility, setModalPatientVisibility] = useState(false);
   const [patients, setPatients] = useState([]);
   const [patient, setPatient] = useState({});
 
   const onEditPatient = id => {
     const patientToEdit = patients.filter(patient => patient.id === id)[0];
     setPatient(patientToEdit);
-    setModalVisibility(true);
+    setModalFormVisibility(true);
   };
 
   const confirmDeletePatient = id => {
@@ -58,7 +60,7 @@ const App = (): React.JSX.Element => {
 
       <Pressable
         onPress={() => {
-          setModalVisibility(true);
+          setModalFormVisibility(true);
         }}
         style={styles.button}>
         <Text style={styles.buttonText}>New Appointment</Text>
@@ -77,6 +79,8 @@ const App = (): React.JSX.Element => {
                 item={item}
                 onEditPatient={onEditPatient}
                 onDeletePatient={confirmDeletePatient}
+                setPatient={setPatient}
+                setModalPatientVisibility={setModalPatientVisibility}
               />
             );
           }}
@@ -84,13 +88,21 @@ const App = (): React.JSX.Element => {
       )}
 
       <Form
-        modalVisibility={modalVisibility}
-        setModalVisibility={setModalVisibility}
+        modalVisibility={modalFormVisibility}
+        setModalVisibility={setModalFormVisibility}
         patients={patients}
         setPatients={setPatients}
         patient={patient}
         setPatient={setPatient}
       />
+
+      <Modal visible={modalPatientVisibility} animationType="fade">
+        <ModalPatient
+          patient={patient}
+          setPatient={setPatient}
+          setModalPatientVisibility={setModalPatientVisibility}
+        />
+      </Modal>
     </SafeAreaView>
   );
 };

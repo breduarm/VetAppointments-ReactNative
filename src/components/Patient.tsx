@@ -1,41 +1,42 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
+import { formatDate } from '../helpers';
 
-const Patient = ({item, onEditPatient, onDeletePatient}) => {
+const Patient = ({
+  item,
+  onEditPatient,
+  onDeletePatient,
+  setPatient,
+  setModalPatientVisibility,
+}) => {
   const {id, patient, dateApp} = item;
 
-  const formatDate = (date: Date) => {
-    const dateAppointment = new Date(date);
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    };
-
-    return dateAppointment.toLocaleDateString('en-US', options);
-  };
-
   return (
-    <View style={styles.content}>
-      <Text style={styles.label}>Patient:</Text>
-      <Text style={styles.text}>{patient}</Text>
-      <Text style={styles.date}>{formatDate(dateApp)}</Text>
+    <Pressable
+      onLongPress={() => {
+        setModalPatientVisibility(true);
+        setPatient(item);
+      }}>
+      <View style={styles.content}>
+        <Text style={styles.label}>Patient:</Text>
+        <Text style={styles.text}>{patient}</Text>
+        <Text style={styles.date}>{formatDate(dateApp)}</Text>
 
-      <View style={styles.btnsContainer}>
-        <Pressable
-          style={[styles.btnAction, styles.btnEdit]}
-          onPress={() => onEditPatient(id)}>
-          <Text style={styles.btnText}>Edit</Text>
-        </Pressable>
+        <View style={styles.btnsContainer}>
+          <Pressable
+            style={[styles.btnAction, styles.btnEdit]}
+            onPress={() => onEditPatient(id)}>
+            <Text style={styles.btnText}>Edit</Text>
+          </Pressable>
 
-        <Pressable
-          style={[styles.btnAction, styles.btnDelet]}
-          onPress={() => onDeletePatient(id)}>
-          <Text style={styles.btnText}>Delet</Text>
-        </Pressable>
+          <Pressable
+            style={[styles.btnAction, styles.btnDelet]}
+            onPress={() => onDeletePatient(id)}>
+            <Text style={styles.btnText}>Delet</Text>
+          </Pressable>
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
