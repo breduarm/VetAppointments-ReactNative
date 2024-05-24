@@ -42,7 +42,7 @@ const ModalPatient = ({patient, setPatient, setModalPatientVisibility}) => {
         </View>
         <View style={styles.field}>
           <Text style={styles.label}>Symptoms:</Text>
-          <Text style={styles.value}>{patient.Symptoms}</Text>
+          <Text style={styles.value}>{patient.symptoms}</Text>
         </View>
       </View>
     </SafeAreaView>

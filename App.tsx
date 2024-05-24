@@ -51,6 +51,10 @@ const App = (): React.JSX.Element => {
     setPatients(updatedPatients);
   };
 
+  const closeFormModal = () => {
+    setModalFormVisibility(false)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.h1}>
@@ -87,14 +91,15 @@ const App = (): React.JSX.Element => {
         />
       )}
 
-      <Form
-        modalVisibility={modalFormVisibility}
-        setModalVisibility={setModalFormVisibility}
-        patients={patients}
-        setPatients={setPatients}
-        patient={patient}
-        setPatient={setPatient}
-      />
+      {modalFormVisibility && (
+        <Form
+          closeFormModal={closeFormModal}
+          patients={patients}
+          setPatients={setPatients}
+          patient={patient}
+          setPatient={setPatient}
+        />
+      )}
 
       <Modal visible={modalPatientVisibility} animationType="fade">
         <ModalPatient

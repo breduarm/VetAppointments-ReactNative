@@ -13,8 +13,7 @@ import {
 import DatePicker from 'react-native-date-picker';
 
 const Form = ({
-  modalVisibility,
-  setModalVisibility,
+  closeFormModal,
   patients,
   setPatients,
   patient: prevPatient,
@@ -51,7 +50,7 @@ const Form = ({
   };
 
   const onCancel = () => {
-    setModalVisibility(false);
+    closeFormModal();
     clearAllFields();
     setPrevPatient({});
   };
@@ -86,11 +85,11 @@ const Form = ({
     }
 
     clearAllFields();
-    setModalVisibility(false);
+    closeFormModal();
   };
 
   return (
-    <Modal animationType="slide" visible={modalVisibility}>
+    <Modal animationType="slide">
       <SafeAreaView style={styles.content}>
         <ScrollView>
           <Text style={styles.h1}>
