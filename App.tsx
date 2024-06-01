@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
   Text,
@@ -9,28 +8,25 @@ import {
   Alert,
   Modal,
 } from 'react-native';
-import Patient from './src/components/Patient';
+import PatientView from './src/components/PatientView';
 import Form from './src/components/ModalForm';
 import ModalPatient from './src/components/ModalPatient';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+import Patient from './src/domain/model/Patient';
 
 const App = (): React.JSX.Element => {
   // Hooks must go on top, before components.
   const [modalFormVisibility, setModalFormVisibility] = useState(false);
   const [modalPatientVisibility, setModalPatientVisibility] = useState(false);
-  const [patients, setPatients] = useState([]);
+  const [patients, setPatients] = useState<Patient[]>([]);
   const [patient, setPatient] = useState({});
 
-  const onEditPatient = id => {
+  const onEditPatient = (id: string) => {
     const patientToEdit = patients.filter(patient => patient.id === id)[0];
     setPatient(patientToEdit);
     setModalFormVisibility(true);
   };
 
-  const confirmDeletePatient = id => {
+  const confirmDeletePatient = (id: string) => {
     Alert.alert(
       'Do you want to delete this patient?',
       'This action can not be undone',
@@ -46,7 +42,7 @@ const App = (): React.JSX.Element => {
     );
   };
 
-  const onDeletePatient = id => {
+  const onDeletePatient = (id: string) => {
     const updatedPatients = patients.filter(patient => patient.id !== id);
     setPatients(updatedPatients);
   };
@@ -79,7 +75,7 @@ const App = (): React.JSX.Element => {
           keyExtractor={item => item.id}
           renderItem={({item}) => {
             return (
-              <Patient
+              <PatientView
                 item={item}
                 onEditPatient={onEditPatient}
                 onDeletePatient={confirmDeletePatient}

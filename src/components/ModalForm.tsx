@@ -10,7 +10,10 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
+
 import DatePicker from 'react-native-date-picker';
+
+import Patient from '../domain/model/Patient';
 
 const Form = ({
   closeFormModal,
@@ -61,14 +64,14 @@ const Form = ({
       return;
     }
 
-    const newPatient = {
+    const newPatient = new Patient(
       patient,
       owner,
       email,
       phone,
       dateApp,
       symptoms,
-    };
+    );
 
     if (id) {
       // Edit patient
@@ -80,7 +83,7 @@ const Form = ({
       setPrevPatient({});
     } else {
       // New Patient
-      newPatient.id = Date.now();
+      newPatient.id = Date.now().toString();
       setPatients([...patients, newPatient]);
     }
 

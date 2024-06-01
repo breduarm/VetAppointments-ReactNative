@@ -2,7 +2,7 @@ import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import { formatDate } from '../helpers';
 
-const Patient = ({
+const PatientView = ({
   item,
   onEditPatient,
   onDeletePatient,
@@ -86,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Patient;
+export default PatientView;
